@@ -1,5 +1,7 @@
 package Entities;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import enums.WorkerLevel;
@@ -11,7 +13,7 @@ public class Trabalhador {
     private Double salarioBase;
     
     private Departamento departamento;
-    private List <ContratoHora> contratos;
+    private List <ContratoHora> contratos = new ArrayList<>();
     
     
     
@@ -22,13 +24,11 @@ public class Trabalhador {
 
 
 
-	public Trabalhador(String nome, WorkerLevel nivel, Double salarioBase, Departamento departamento,
-			List<ContratoHora> contratos) {
+	public Trabalhador(String nome, WorkerLevel nivel, Double salarioBase, Departamento departamento) {
 		this.nome = nome;
 		this.nivel = nivel;
 		this.salarioBase = salarioBase;
 		this.departamento = departamento;
-		this.contratos = contratos;
 	}
 
 
@@ -84,15 +84,35 @@ public class Trabalhador {
 	public List<ContratoHora> getContratos() {
 		return contratos;
 	}
-
-
-
-	public void setContratos(List<ContratoHora> contratos) {
-		this.contratos = contratos;
+	
+	public Double salario (int ano, int mes) {
+		double soma = salarioBase;
+		Calendar cal =Calendar.getInstance();
+		
+		for (ContratoHora c : contratos) {
+			cal.setTime(c.getData());
+			int c_ano = cal.get(Calendar.YEAR);
+		    int c_mes = 1 +cal.get(Calendar.MONTH); // mes começa com 0 -> add 1//
+		    
+			if (ano == c_ano && mes == c_mes) {
+				soma += c.valorTotal();
+				
+			}
+		}
+		
+		return soma;
 	}
     
 
+	public void addContrato (ContratoHora contrato) {
+		contratos.add(contrato);
+		
+	}
     
+	public void removeContrato (ContratoHora contrato) {
+		contratos.remove(contrato);
+		
+	}
 
     
     
