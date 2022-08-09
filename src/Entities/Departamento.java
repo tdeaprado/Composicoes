@@ -7,6 +7,11 @@ public class Departamento {
 	public Departamento() {
 		
 	}
+   public Departamento(String departamento) {
+		this.name = departamento;
+	}
+	
+	
 
 	public String getName() {
 		return name;
